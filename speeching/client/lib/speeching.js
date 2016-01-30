@@ -1,23 +1,36 @@
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+Template.hello.helpers({
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+});
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-}
+Template.hello.events({
+  'click button': function () {
+    // increment the counter when button is clicked
+    var recognition = init_recogn();
+    recognition.start();
+  }
+});
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-}
+Template.speeching.helpers({
+  getMessages: function () {
+    return Messages.find({});
+  }
+});
+
+Template.speeching.events({
+  "mouseenter #setting-hover": function(event, template) {
+    //console.log("mousehover", event);
+    $("#setting").slideDown("fast");
+  },
+  "mouseleave #setting": function(event, template) {
+    //console.log("mouseleave", event);
+    $("#setting").slideUp("fast");
+  }
+});
+
+Template.registerHelper('formatDate', function(date) {
+  return moment(date).format('HH:mm:ss');
+});
+
+Accounts.ui.config({
+  passwordSignupFields: "USERNAME_ONLY"
+});
