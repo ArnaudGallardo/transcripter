@@ -3,9 +3,9 @@ body, body > div {
   height: 100%;
 }
 
-.navbar-fixed-top, .navbar-fixed-bottom {
-  position: relative;
-  margin: 0;
+.navbar-custom {
+  background-color: #479495;
+  border-color: transparent;
 }
 
 .room {
@@ -20,7 +20,7 @@ body, body > div {
 }
 
 .users {
-  border-left: 2px solid white;
+  background-color: rgba(255,255,255,.2);
 }
 
 .messages {
@@ -39,8 +39,9 @@ body, body > div {
 }
 
 .messages > li > .username_message {
-  color:#3f8384;
+  color:#479495;
 }
+
 
 .revealer-room-setting {
   width: 100%;

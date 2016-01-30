@@ -3,7 +3,7 @@
 </head>
 
 <template name="speeching">
-  <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-custom" style="margin-bottom:0;">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Speeching</a>
@@ -25,9 +25,7 @@
 
         </div>
         <div class="room-setting" id="setting">
-          <p>
-            <i class="fa fa-cog"></i>
-          </p>
+          <i class="fa fa-cog"></i>
         </div>
         <ul class="messages">
           {{#each getMessages}}
