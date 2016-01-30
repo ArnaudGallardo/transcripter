@@ -10,10 +10,12 @@ Template.hello.events({
   }
 });
 
+// Template.speeching
+
 Template.speeching.helpers({
   getMessages: function () {
     return Messages.find({});
-  }
+  },
 });
 
 Template.speeching.events({
@@ -24,8 +26,19 @@ Template.speeching.events({
   "mouseleave #setting": function(event, template) {
     //console.log("mouseleave", event);
     $("#setting").slideUp("fast");
-  }
+  },
+  "click #create-room": function (event, instance) {
+    var userId = Meteor.userId();
+    Meetings.insert({
+      leaderUserId: userId,
+      users: [userId],
+      recordingState: "stopped",
+      language: "en-US",
+    });
+  },
 });
+
+// global stuff
 
 Template.registerHelper('formatDate', function(date) {
   return moment(date).format('HH:mm:ss');
