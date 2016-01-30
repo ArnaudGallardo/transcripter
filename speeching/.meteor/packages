@@ -25,3 +25,6 @@ kadira:flow-router
 kadira:blaze-layout
 momentjs:moment
 fortawesome:fontawesome
+aldeed:collection2
+aldeed:simple-schema
+aldeed:autoform
