@@ -1,3 +1,14 @@
+// https://github.com/aldeed/meteor-collection2#autovalue
+function dateCreatedAutoValue () {
+  if (this.isInsert) {
+    return new Date();
+  } else if (this.isUpsert) {
+    return { $setOnInsert: new Date() };
+  } else {
+    this.unset();  // Prevent user from supplying their own value
+  }
+}
+
 Meetings = new Meteor.Collection("meetings");
 Meetings.attachSchema(new SimpleSchema({
   leaderUserId: { type: [Meteor.ObjectID] },
@@ -9,12 +20,14 @@ Meetings.attachSchema(new SimpleSchema({
       }),
     ],
   },
+  dateCreated: { type: Date, autoValue: dateCreatedAutoValue },
+  subject: { type: String },
   recordingState: {
     type: String,
     allowedValues: [
       "recording",
       "paused",
-      "ended",
+      "stopped",
     ],
   },
   language: {
