@@ -1,0 +1,9 @@
+#addRoom {
+  font-size:90px;
+  cursor: pointer;
+}
+
+#addRoom:focus {
+  border: none;
+  outline: none;
+}

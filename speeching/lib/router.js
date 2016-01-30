@@ -1,6 +1,6 @@
 FlowRouter.route("/", {
-  name: "home",
+  name: "index",
   action: function() {
-    BlazeLayout.render("speeching", {content: "speech"});
+    BlazeLayout.render("index", {logged: Meteor.user()});
   }
 });
