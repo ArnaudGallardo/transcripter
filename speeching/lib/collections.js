@@ -17,6 +17,9 @@ Meetings.attachSchema(new SimpleSchema({
       "ended",
     ],
   },
+  language: {
+    type: String,
+  },
 }));
 
 Messages = new Meteor.Collection("messages");
