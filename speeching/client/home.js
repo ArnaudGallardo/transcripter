@@ -3,22 +3,28 @@ Template.home.helpers({
 });
 
 Template.home.events({
-  "click #addRoom": function (event, instance) {
+  "submit #createRoom": function (event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
     var userId = Meteor.userId();
-    Meetings.insert({
+    var lang = event.target.meetingLang.value;
+    var subject = event.target.meetingSubj.value;
+
+    console.log(userId + ' created a room with settings:');
+    console.log('Lang:'+lang);
+    console.log('Subject:'+subject);
+
+    var meetingId = Meetings.insert({
       leaderUserId: userId,
-      users: [userId],
+      users: [],
+      subject: subject || "No subject",
       recordingState: "stopped",
-      language: "en-US",
+      language: lang || "en-US",
     });
-  },
-  "click #createRoom": function (event, instance) {
-    var userId = Meteor.userId();
-    Meetings.insert({
-      leaderUserId: userId,
-      users: [userId],
-      recordingState: "stopped",
-      language: "en-US",
-    });
+    
+    console.log('meetID:'+meetingId);
+    FlowRouter.go("/room/"+meetingId);
+
   },
 });

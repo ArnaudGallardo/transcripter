@@ -7,3 +7,7 @@
   border: none;
   outline: none;
 }
+
+.input-group {
+  margin-top: 10px;
+}

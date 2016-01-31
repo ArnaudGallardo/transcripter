@@ -1,0 +1,38 @@
+.container {
+  padding-top: 30px;
+  text-align: left;
+}
+
+#subject {
+  font-size: 30px;
+  line-height: 45px;
+  color: #464545;
+  vertical-align: middle;
+}
+
+.messages {
+  text-align: left;
+  list-style: none;
+  padding-right: 20px;
+  padding-top: 20px;
+}
+
+.messages > li > span {
+  font-size: 16px;
+}
+
+.messages > li > .date_message {
+  color:rgba(255,255,255,.6);
+}
+
+.messages > li > .username_message {
+  color:#479495;
+}
+
+.messages > li > .text_message {
+  word-break: break-all;
+}
+
+.messages > li > .system_message {
+  color:#0ce3ac;
+}

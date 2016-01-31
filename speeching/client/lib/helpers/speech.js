@@ -1,6 +1,6 @@
 init_recogn = function() {
 
-  var recognition = new webkitSpeechRecognition();
+  Recognition = new webkitSpeechRecognition();
 
   var interim_span = document.getElementById("interim");
   var final_span = document.getElementById("final");
