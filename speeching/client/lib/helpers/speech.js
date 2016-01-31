@@ -68,13 +68,23 @@ init_recogn = function() {
           });
         }
       }
-      console.log(interim_transcript);
+      var elem = document.getElementById('chat_box');
+      console.log("scroll");
+      elem.scrollTop = elem.scrollHeight;
   };
   recognition.onend = function(event) {
       console.log('end');
+      /*
+      console.log(Session.get("reload"));
+      if (Session.get("reload")) {
+        recognition.start();
+        Session.set("reload",false);
+      }
+      */
   };
   recognition.onerror = function(event) {
-      console.log('error'+event);
+      console.log('error');
+      console.log(event);
   };
   return recognition;
 }

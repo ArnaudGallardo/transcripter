@@ -1,5 +1,5 @@
 .container {
-  padding-top: 30px;
+  margin-top: 30px;
   text-align: left;
 }
 
@@ -23,7 +23,8 @@
 
 .messages > li > .date_message {
   width: 5rem;
-  margin-left: -7.5rem;
+  font-size: 12px;
+  margin-left: -5.6rem;
   color:rgba(255,255,255,.6);
 }
 
@@ -36,7 +37,7 @@
 }
 
 .messages > li > .tmp {
-  color:red;
+  color:#a75454;
 }
 
 .system_message {
@@ -60,4 +61,9 @@
 .userlist > li {
   list-style: none;
   margin-bottom: 10px;
+}
+
+#chat_box {
+  height: 350px;
+  overflow-y: scroll;
 }

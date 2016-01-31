@@ -1,4 +1,5 @@
 var recog;
+//Session.setDefault("reload", false);
 
 Meteor.startup(function () {
   recog = init_recogn();
@@ -23,6 +24,7 @@ Template.showRoom.onCreated(function () {
     instance.recognition = recog;
 
     // clean up from last time just in case
+
     if (instance.meetingsObserve) {
       instance.meetingsObserve.stop();
     }
@@ -53,6 +55,23 @@ Template.showRoom.onCreated(function () {
         instance.recognition.stop();
       },
     });
+    /*
+    // NOTE: this is not reactive
+    var cursor2 = Messages.find({
+      meetingId: instance.data._id,
+      username: { $not: "system" },
+      isValidated: true,
+    });
+
+    instance.messagesObserve = cursor2.observe({
+      added: function (doc) {
+        // start recording
+        console.log("stopstart recording");
+        Session.set("reload", true);
+        instance.recognition.stop();
+      },
+    });
+    */
   });
 });
 
@@ -60,6 +79,7 @@ Template.showRoom.onDestroyed(function () {
   var instance = this;
 
   instance.meetingsObserve.stop();
+  //instance.messagesObserve.stop();
   instance.recognition.stop();
 });
 
@@ -108,6 +128,9 @@ Template.showRoom.events({
         recordingState: "recording"
       }
     });
+    var elem = document.getElementById('chat_box');
+    console.log("scroll");
+    elem.scrollTop = elem.scrollHeight;
   },
   "click #pause": function (event, instance) {
     Messages.insert({
@@ -122,6 +145,9 @@ Template.showRoom.events({
         recordingState: "paused"
       }
     });
+    var elem = document.getElementById('chat_box');
+    console.log("scroll");
+    elem.scrollTop = elem.scrollHeight;
   },
   "click #stop": function (event, instance) {
     Messages.insert({
@@ -136,6 +162,9 @@ Template.showRoom.events({
         recordingState: "stopped"
       }
     });
+    var elem = document.getElementById('chat_box');
+    console.log("scroll");
+    elem.scrollTop = elem.scrollHeight;
   },
   "submit #addUser": function (event, instance) {
     // Prevent default browser form submit
