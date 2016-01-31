@@ -1,15 +1,11 @@
-init_recogn = function(language, meetingId) {
+init_recogn = function() {
 
   recognition = new webkitSpeechRecognition();
 
   var lastModifiedId;
 
-  console.log(Meteor.user());
-  var username = Meteor.user().username;
-
   recognition.continuous = true;
   recognition.interimResults = true;
-  recognition.lang = language;
 
   recognition.onresult = function(event) {
       console.log(event)
@@ -23,6 +19,9 @@ init_recogn = function(language, meetingId) {
           interim_transcript += event.results[i][0].transcript;
         }
       }
+      var meetingId = Session.get("meetingId");
+      var userId = Session.get("user")._id;
+      var username = Session.get("user").username;
       console.log('USER:'+Meteor.userId());
       if (final_transcript !== "") {
         if (!lastModifiedId) {
@@ -30,7 +29,7 @@ init_recogn = function(language, meetingId) {
               text: final_transcript,
               meetingId: meetingId,
               username: username,
-              userId: Meteor.userId(),
+              userId: userId,
               isValidated: true,
           });
         }
@@ -40,7 +39,7 @@ init_recogn = function(language, meetingId) {
               text: final_transcript,
               meetingId: meetingId,
               username: username,
-              userId: Meteor.userId(),
+              userId: userId,
               isValidated: true,
             }
           });
@@ -53,7 +52,7 @@ init_recogn = function(language, meetingId) {
               text: interim_transcript,
               meetingId: meetingId,
               username: username,
-              userId: Meteor.userId(),
+              userId: userId,
               isValidated: false,
           });
         }
@@ -63,7 +62,7 @@ init_recogn = function(language, meetingId) {
               text: interim_transcript,
               meetingId: meetingId,
               username: username,
-              userId: Meteor.userId(),
+              userId: userId,
               isValidated: false,
             }
           });
@@ -75,7 +74,7 @@ init_recogn = function(language, meetingId) {
       console.log('end');
   };
   recognition.onerror = function(event) {
-      console.log('error');
+      console.log('error'+event);
   };
   return recognition;
 }

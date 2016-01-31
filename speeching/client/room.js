@@ -1,3 +1,9 @@
+var recog;
+
+Meteor.startup(function () {
+  recog = init_recogn();
+})
+
 Template.room.helpers({
   getRoom: function () {
     return Meetings.findOne(this.roomId());
@@ -7,13 +13,13 @@ Template.room.helpers({
 Template.showRoom.onCreated(function () {
   var instance = this;
 
-  instance.recognition = undefined;
-
   instance.autorun(function () {
     // make sure we have the user object loaded on the client
     if (!Meteor.user() || !Meteor.user().username) {
       return;
     }
+
+    instance.recognition = recog;
 
     // clean up from last time just in case
     if (instance.meetingsObserve) {
@@ -22,18 +28,17 @@ Template.showRoom.onCreated(function () {
     if (instance.recognition) {
       instance.recognition.stop();
     }
-    if (instance.recognition == undefined) {
-      instance.recognition = init_recogn(instance.data.language,instance.data._id);
-    }
+
+    // setup recognition for this time
+    instance.recognition.lang = instance.data.language;
+    Session.set("meetingId", instance.data._id);
+    Session.set("user", Meteor.user());
 
     // NOTE: this is not reactive
-    console.log(instance.data._id);
     var cursor = Meetings.find({
       _id: instance.data._id,
       recordingState: "recording",
     });
-
-    console.log(cursor.fetch());
 
     instance.meetingsObserve = cursor.observe({
       added: function (doc) {

@@ -30,7 +30,7 @@
 }
 
 .messages > li > .text_message {
-  word-break: break-all;
+  word-break: normal;
 }
 
 .messages > li > .tmp {
@@ -39,4 +39,22 @@
 
 .messages > li > .system_message {
   color:#0ce3ac;
+}
+
+.userlist > li > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.userlist > li > span {
+  margin-left: 10px;
+}
+
+.userlist {
+  list-style: none;
+}
+
+.userlist > li {
+  list-style: none;
 }
