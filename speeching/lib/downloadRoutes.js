@@ -4,7 +4,7 @@ function downloadTranscript () {
 
   var meetingId = this.params.meetingId;
   console.log("meetingId:", meetingId);
-  var meeting = Messages.findOne(meetingId);
+  var meeting = Meetings.findOne(meetingId);
   console.log("meeting:", meeting);
 
   // make sure it downloads right... Ted magic at work
@@ -14,8 +14,13 @@ function downloadTranscript () {
     // 'Content-Type': 'text/tab-separated-values',
     'Content-Disposition': 'attachment; filename="' + filename +'"',
   });
-
-  response.write("WRITE STUFF HERE");
+  response.write(meeting.subject+" "+moment(meeting.dateCreated).format('MMMM Do YYYY')+"\n");
+  var messages = Messages.find({meetingId:meetingId}).fetch();
+  messages.forEach(function(message) {
+    response.write("["+moment(message.dateCreated).format('HH:mm:ss')+"] ");
+    response.write(message.username);
+    response.write(": "+message.text+"\n");
+});
 
   // we're done here
   response.end();

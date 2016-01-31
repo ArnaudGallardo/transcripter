@@ -51,6 +51,13 @@
           <span class="date">13/02/1297</span>
           <a href="#" class="link">testtitre <i class="fa fa-caret-square-o-right faa-flash animated"></i></a>
         </div>
+        {{#each getMeetings}}
+          <div class="meet">
+            <span class="title">{{subject}}</span>
+            <span class="date">{{}}</span>
+            <a href="#" class="link">testtitre <i class="fa fa-caret-square-o-right faa-flash animated"></i></a>
+          </div>
+        {{/each}}
       </div>
     </div>
   </div>

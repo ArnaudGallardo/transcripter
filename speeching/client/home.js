@@ -1,5 +1,9 @@
 Template.home.helpers({
-
+  getMeetings: function () {
+    return Meetings.find({
+      meetingId: this._id
+    });
+  },
 });
 
 Template.home.events({
@@ -22,7 +26,7 @@ Template.home.events({
       recordingState: "stopped",
       language: lang || "en-US",
     });
-    
+
     console.log('meetID:'+meetingId);
     FlowRouter.go("/room/"+meetingId);
 
