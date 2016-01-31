@@ -1,15 +1,16 @@
-init_recogn = function() {
+init_recogn = function(language, meetingId) {
 
-  Recognition = new webkitSpeechRecognition();
+  recognition = new webkitSpeechRecognition();
 
-  var interim_span = document.getElementById("interim");
-  var final_span = document.getElementById("final");
+  var lastModifiedId;
 
+  console.log(Meteor.user());
   var username = Meteor.user().username;
 
   recognition.continuous = true;
   recognition.interimResults = true;
-  recognition.lang = "fr-FR";
+  recognition.lang = language;
+
   recognition.onresult = function(event) {
       var interim_transcript = '';
       var final_transcript = '';
@@ -21,17 +22,55 @@ init_recogn = function() {
           interim_transcript += event.results[i][0].transcript;
         }
       }
+
       console.log(final_transcript);
+
       if (final_transcript !== "") {
-        console.log('insert');
-        Messages.insert({
-          username,
-          text: final_transcript,
-          createdAt: new Date()
-        });
+        if (!lastModifiedId) {
+          lastModifiedId = Messages.insert({
+              text: final_transcript,
+              meetingId: meetingId,
+              username: username,
+              userId: Meteor.userId(),
+              isValidated: true,
+          });
+        }
+        else {
+          Messages.update(lastModifiedId, {
+            $set: {
+              text: final_transcript,
+              meetingId: meetingId,
+              username: username,
+              userId: Meteor.userId(),
+              isValidated: true,
+            }
+          });
+          lastModifiedId = undefined;
+        }
       }
-      //final_span.innerHTML = final_transcript;
-      interim_span.innerHTML = interim_transcript;
+      else {
+        if (!lastModifiedId) {
+          lastModifiedId = Messages.insert({
+              text: interim_transcript,
+              meetingId: meetingId,
+              username: username,
+              userId: Meteor.userId(),
+              isValidated: false,
+          });
+        }
+        else {
+          Messages.update(lastModifiedId, {
+            $set: {
+              text: interim_transcript,
+              meetingId: meetingId,
+              username: username,
+              userId: Meteor.userId(),
+              isValidated: false,
+            }
+          });
+        }
+      }
+      console.log(interim_transcript);
   };
   recognition.onend = function(event) {
       console.log('end');
@@ -40,9 +79,4 @@ init_recogn = function() {
       console.log('error');
   };
   return recognition;
-}
-
-function getTime(d) {
-  var date = addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getSeconds());
-  return date;
 }

@@ -42,4 +42,5 @@ Messages.attachSchema(new SimpleSchema({
   meetingId: { type: Meteor.ObjectID },
   text: { type: String },
   dateCreated: { type: Date, autoValue: dateCreatedAutoValue },
+  isValidated: { type: Boolean, defaultValue: false},
 }));

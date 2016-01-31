@@ -5,8 +5,8 @@ Template.hello.helpers({
 Template.hello.events({
   'click button': function () {
     // increment the counter when button is clicked
-    var recognition = init_recogn();
-    recognition.start();
+    var Recognition = init_recogn();
+    Recognition.start();
   }
 });
 

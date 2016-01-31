@@ -33,6 +33,10 @@
   word-break: break-all;
 }
 
+.messages > li > .tmp {
+  color:red;
+}
+
 .messages > li > .system_message {
   color:#0ce3ac;
 }

@@ -46,7 +46,11 @@
               <li>
                 <span class="date_message">[{{getHours dateCreated}}]</span>
                 <span class="username_message">{{username}}</span>
-                <span class="text_message">: {{text}}</span>
+                {{#if isValidated}}
+                  <span class="text_message">: {{text}}</span>
+                {{else}}
+                  <span class="text_message tmp">: {{text}}</span>
+                {{/if}}
               </li>
               {{/if}}
             {{/each}}

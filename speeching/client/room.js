@@ -1,17 +1,64 @@
 Template.room.helpers({
   getRoom: function () {
-    return Meetings.findOne(this.roomId);
+    return Meetings.findOne(this.roomId());
   },
+});
+
+Template.showRoom.onCreated(function () {
+  var instance = this;
+
+  instance.autorun(function () {
+    // make sure we have the user object loaded on the client
+    if (!Meteor.user() || !Meteor.user().username) {
+      return;
+    }
+
+    // clean up from last time just in case
+    if (instance.meetingsObserve) {
+      instance.meetingsObserve.stop();
+    }
+    if (instance.recognition) {
+      instance.recognition.stop();
+    }
+
+    instance.recognition = init_recogn(instance.data.language,instance.data._id);
+
+    // NOTE: this is not reactive
+    console.log(instance.data._id);
+    var cursor = Meetings.find({
+      _id: instance.data._id,
+      recordingState: "recording",
+    });
+
+    console.log(cursor.fetch());
+
+    instance.meetingsObserve = cursor.observe({
+      added: function (doc) {
+        // start recording
+        console.log("start recording");
+        instance.recognition.start();
+      },
+      removed: function (doc) {
+        // stop recording
+        console.log("stop recording");
+        instance.recognition.stop();
+      },
+    });
+  });
+});
+
+Template.showRoom.onDestroyed(function () {
+  var instance = this;
+
+  instance.meetingsObserve.stop();
+  instance.recognition.stop();
 });
 
 Template.showRoom.helpers({
   getMessages: function () {
-    var cursor = Messages.find({
+    return Messages.find({
       meetingId: this._id
     });
-    console.log(this._id);
-    console.log(cursor.fetch());
-    return cursor;
   },
   isPaused: function(){
     return this.recordingState == "paused" || this.recordingState == "stopped";
