@@ -11,3 +11,9 @@ FlowRouter.route("/room/:roomId", {
     BlazeLayout.render("room", params);
   }
 });
+
+// lol two routers :DDDDDD
+
+Router.configure({
+  notFoundTemplate: 'fakePageNotFound',
+});
