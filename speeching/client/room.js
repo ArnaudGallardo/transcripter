@@ -12,7 +12,8 @@ Template.room.helpers({
 
 Template.showRoom.onCreated(function () {
   var instance = this;
-
+  //Wtf is happening with this modal... Just killing it here
+  $(".modal-backdrop").hide();
   instance.autorun(function () {
     // make sure we have the user object loaded on the client
     if (!Meteor.user() || !Meteor.user().username) {
@@ -68,11 +69,16 @@ Template.showRoom.helpers({
       meetingId: this._id
     });
   },
-  isPaused: function(){
-    return this.recordingState == "paused" || this.recordingState == "stopped";
+  getUsers: function () {
+    var userIds = Meetings.findOne(this._id).users;
+    return Meteor.users.find({
+      _id: {
+        $in: userIds
+      }
+    });
   },
-  isSystem: function(username){
-    return username == "system";
+  leader: function () {
+    return Meteor.userId() === Template.currentData().leaderUserId;
   },
 });
 
@@ -115,6 +121,43 @@ Template.showRoom.events({
         recordingState: "paused"
       }
     });
+  },
+  "click #stop": function (event, instance) {
+    Messages.insert({
+      text: "Meeting stopped",
+      meetingId: this._id,
+      username: "system",
+      userId: 0
+    });
+    Meetings.update(instance.data._id,
+    {
+      $set: {
+        recordingState: "stopped"
+      }
+    });
+  },
+  "submit #addUser": function (event, instance) {
+    // Prevent default browser form submit
+    event.preventDefault();
+    var username = event.target.usernameForm.value;
+
+    var findUser = Meteor.users.findOne({
+      username: username,
+    });
+
+    if (findUser) {
+      console.log('added:'+username);
+      Meetings.update(instance.data._id,
+      {
+        $addToSet: {
+          users: findUser._id
+        }
+      });
+      $("#userModal").modal('hide');
+    }
+    else {
+      $("#errorForm").html("<p>"+username+" not found.</p>");
+    }
   },
 });
 

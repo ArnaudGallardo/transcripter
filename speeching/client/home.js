@@ -1,8 +1,11 @@
 Template.home.helpers({
   getMeetings: function () {
     return Meetings.find({
-      meetingId: this._id
+      users: Meteor.userId()
     });
+  },
+  isStopped: function (state) {
+    return (state == "stopped");
   },
 });
 
@@ -10,7 +13,6 @@ Template.home.events({
   "submit #createRoom": function (event) {
     // Prevent default browser form submit
     event.preventDefault();
-
     var userId = Meteor.userId();
     var lang = event.target.meetingLang.value;
     var subject = event.target.meetingSubj.value;
@@ -21,9 +23,9 @@ Template.home.events({
 
     var meetingId = Meetings.insert({
       leaderUserId: userId,
-      users: [],
+      users: [userId],
       subject: subject || "No subject",
-      recordingState: "stopped",
+      recordingState: "paused",
       language: lang || "en-US",
     });
 

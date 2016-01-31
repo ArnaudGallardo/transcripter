@@ -6,7 +6,7 @@
 #subject {
   font-size: 30px;
   line-height: 45px;
-  color: #464545;
+  color: #999;
   vertical-align: middle;
 }
 
@@ -22,11 +22,13 @@
 }
 
 .messages > li > .date_message {
+  width: 5rem;
+  margin-left: -7.5rem;
   color:rgba(255,255,255,.6);
 }
 
 .messages > li > .username_message {
-  color:#479495;
+  color:#0ce3ac;
 }
 
 .messages > li > .text_message {
@@ -37,8 +39,8 @@
   color:red;
 }
 
-.messages > li > .system_message {
-  color:#0ce3ac;
+.system_message {
+  color:#479495;
 }
 
 .userlist > li > img {
@@ -57,4 +59,5 @@
 
 .userlist > li {
   list-style: none;
+  margin-bottom: 10px;
 }

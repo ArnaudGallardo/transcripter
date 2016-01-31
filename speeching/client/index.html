@@ -18,9 +18,9 @@
 
             <div class="masthead clearfix">
               <div class="inner">
-                <h3 class="masthead-brand">Speeching</h3>
+                <h3 class="masthead-brand">Transcripter</h3>
                 <nav>
-                  <ul class="masthead-nav">
+                  <ul class="masthead-nav" style="background-color:rgba(0,0,0,.5);padding-top:10px;padding-bottom:10px;padding-right:40px">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#">Features</a></li>
                     <li><a href="#">Contact</a></li>
@@ -30,17 +30,23 @@
               </div>
             </div>
 
-            <div class="inner cover">
-              <h1 class="cover-heading">Bonjour</h1>
-              <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+            <div class="inner cover" style="background-color:rgba(0,0,0,.5);padding:20px">
+              <h1 class="cover-heading">Welcome</h1>
               <p class="lead">
-                <a href="#" class="btn btn-lg btn-default">Learn more</a>
+                {{#if getClickedCount}}
+                  You have clicked the "Learn More" button {{getClickedCount}} times.
+                {{else}}
+                  Transcribe your meetings quickly and easily.
+                {{/if}}
+              </p>
+              <p class="lead">
+                <a id="learn-more" href="#" class="btn btn-lg btn-default">Learn more</a>
               </p>
             </div>
 
             <div class="mastfoot">
               <div class="inner">
-                <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                <p>Created from Redbull and Pizza <i class="fa fa-heart"></i></p>
               </div>
             </div>
 

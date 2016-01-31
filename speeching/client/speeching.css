@@ -30,18 +30,6 @@ body, body > div {
   padding-top: 20px;
 }
 
-.messages > li > span {
-  font-size: 16px;
-}
-
-.messages > li > .date_message {
-  color:rgba(255,255,255,.6);
-}
-
-.messages > li > .username_message {
-  color:#479495;
-}
-
 
 .revealer-room-setting {
   width: 100%;

@@ -11,21 +11,64 @@
 </template>
 
 <template name="showRoom">
+  <!-- Modal -->
+  <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="askUser">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="addUser" action="#" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add a new user</h4>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-addon" id="userLabel">Username</span>
+              <input type="text" class="form-control" id="usernameForm" aria-describedby="userLabel">
+            </div>
+            <div id="errorForm">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Add user"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
   <div class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <h1 style="color:#EEE">Transcripter</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <a href="/"><i class="fa fa-arrow-left"></i> HOME</a>
+      </div>
+    </div>
     <div class="row settings">
       <div class="col-xs-6">
-        <span class="inline" id="subject">{{subject}}</span>
+        <span class="inline" id="subject"><i class="fa fa-bookmark"></i> {{subject}}</span>
       </div>
 
       <div class="col-xs-4 col-xs-offset-2">
-        <div class="btn-group">
-          {{#if isPaused recordingState}}
-            <a class="btn btn-default" href="#" id="play"><i class="fa fa-play"></i></a>
-          {{else}}
-            <a class="btn btn-default" href="#" id="pause"><i class="fa fa-pause"></i></a>
-          {{/if}}
-          <a class="btn btn-default" href="#"><i class="fa fa-user-plus"></i></a>
-        </div>
+        {{#unless compare recordingState "stopped"}}
+          <div class="btn-group">
+            {{#if compare recordingState "paused"}}
+              <a class="btn btn-default" href="#" id="play"><i class="fa fa-play"></i></a>
+            {{else}}
+              <a class="btn btn-default" href="#" id="pause"><i class="fa fa-pause"></i></a>
+            {{/if}}
+            <a class="btn btn-default" href="#" id="stop"><i class="fa fa-stop"></i></a>
+            <a class="btn btn-default" href="#" id="askUser" data-toggle="modal" data-target="#userModal">
+              <i class="fa fa-user-plus"></i>
+            </a>
+          </div>
+        {{/unless}}
       </div>
     </div>
     <div class="row">
@@ -36,34 +79,40 @@
     <div class="row">
       <div class="col-xs-8">
         <div class="container" style="width:100%">
-          <ul class="messages">
-            {{#each getMessages}}
-              {{#if isSystem username}}
-              <li>
-                <span class="system_message">{{text}}</span>
-              </li>
-              {{else}}
-              <li>
-                <span class="date_message">[{{getHours dateCreated}}]</span>
-                <span class="username_message">{{username}}</span>
-                {{#if isValidated}}
-                  <span class="text_message">: {{text}}</span>
+          {{#if length getMessages}}
+            <ul class="messages">
+              {{#each getMessages}}
+                {{#if compare username "system"}}
+                <li>
+                  <span class="system_message">{{text}}</span>
+                </li>
                 {{else}}
-                  <span class="text_message tmp">: {{text}}</span>
+                <li>
+                  <span class="date_message">[{{getHours dateCreated}}]</span>
+                  <span class="username_message">{{username}}</span>
+                  {{#if isValidated}}
+                    <span class="text_message">: {{text}}</span>
+                  {{else}}
+                    <span class="text_message tmp">: {{text}}</span>
+                  {{/if}}
+                </li>
                 {{/if}}
-              </li>
-              {{/if}}
-            {{/each}}
-          </ul>
+              {{/each}}
+            </ul>
+          {{else}}
+            <span class="system_message">Add members and start your meeting!</span>
+          {{/if}}
         </div>
       </div>
       <div class="col-xs-4">
         <div class="container">
           <ul class="userlist">
-            <li>
-              <img src="/lenna.png"/>
-              <span>Arnaud Gallardo</span>
-            </li>
+            {{#each getUsers}}
+              <li>
+                <img src="/lenna.png"/>
+                <span>{{username}}</span>
+              </li>
+            {{/each}}
           </ul>
         </div>
       </div>
