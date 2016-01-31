@@ -12,6 +12,7 @@ init_recogn = function(language, meetingId) {
   recognition.lang = language;
 
   recognition.onresult = function(event) {
+      console.log(event)
       var interim_transcript = '';
       var final_transcript = '';
 
@@ -22,9 +23,7 @@ init_recogn = function(language, meetingId) {
           interim_transcript += event.results[i][0].transcript;
         }
       }
-
-      console.log(final_transcript);
-
+      console.log('USER:'+Meteor.userId());
       if (final_transcript !== "") {
         if (!lastModifiedId) {
           lastModifiedId = Messages.insert({

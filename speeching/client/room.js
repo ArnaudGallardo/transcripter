@@ -7,6 +7,8 @@ Template.room.helpers({
 Template.showRoom.onCreated(function () {
   var instance = this;
 
+  instance.recognition = undefined;
+
   instance.autorun(function () {
     // make sure we have the user object loaded on the client
     if (!Meteor.user() || !Meteor.user().username) {
@@ -20,8 +22,9 @@ Template.showRoom.onCreated(function () {
     if (instance.recognition) {
       instance.recognition.stop();
     }
-
-    instance.recognition = init_recogn(instance.data.language,instance.data._id);
+    if (instance.recognition == undefined) {
+      instance.recognition = init_recogn(instance.data.language,instance.data._id);
+    }
 
     // NOTE: this is not reactive
     console.log(instance.data._id);
