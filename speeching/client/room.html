@@ -63,7 +63,9 @@
             {{else}}
               <a class="btn btn-default" href="#" id="pause"><i class="fa fa-pause"></i></a>
             {{/if}}
-            <a class="btn btn-default" href="#" id="stop"><i class="fa fa-stop"></i></a>
+            {{#if leader}}
+              <a class="btn btn-default" href="#" id="stop"><i class="fa fa-stop"></i></a>
+            {{/if}}
             <a class="btn btn-default" href="#" id="askUser" data-toggle="modal" data-target="#userModal">
               <i class="fa fa-user-plus"></i>
             </a>

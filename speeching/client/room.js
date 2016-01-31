@@ -78,6 +78,7 @@ Template.showRoom.helpers({
     });
   },
   leader: function () {
+    console.log("huh");
     return Meteor.userId() === Template.currentData().leaderUserId;
   },
 });
