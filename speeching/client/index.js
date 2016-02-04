@@ -4,6 +4,9 @@ Template.index.helpers({
   getClickedCount: function () {
     return Session.get("clickedCount");
   },
+  loggedIn: function () {
+    return Meteor.userId();
+  },
 });
 
 Template.index.events({
