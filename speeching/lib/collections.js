@@ -12,7 +12,18 @@ function dateCreatedAutoValue () {
 Meetings = new Meteor.Collection("meetings");
 Meetings.attachSchema(new SimpleSchema({
   leaderUserId: { type: Meteor.ObjectID },
-  users: { type: [String] },
+  users: {
+    type: [
+     new SimpleSchema({
+       userId: {
+         type: String
+       },
+       isReady: {
+         type: Boolean,
+       }
+     })
+    ],
+  },
   dateCreated: { type: Date, autoValue: dateCreatedAutoValue },
   subject: { type: String },
   recordingState: {

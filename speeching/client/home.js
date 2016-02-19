@@ -1,7 +1,7 @@
 Template.home.helpers({
   getMeetings: function () {
     return Meetings.find({
-      users: Meteor.userId()
+      "users.userId": Meteor.userId(),
     });
   },
   isStopped: function (state) {
@@ -23,7 +23,7 @@ Template.home.events({
 
     var meetingId = Meetings.insert({
       leaderUserId: userId,
-      users: [userId],
+      users: [{userId: userId, isReady: false}],
       subject: subject || "No subject",
       recordingState: "paused",
       language: lang || "en-US",
@@ -32,5 +32,14 @@ Template.home.events({
     console.log('meetID:'+meetingId);
     FlowRouter.go("/room/"+meetingId);
 
+  },
+  "click #downloadTxt": function (event, instance) {
+    var meetingId = event.target.dataset.id;
+    Router.go('/download/txt/'+meetingId);
+  },
+  "click #downloadPdf": function (event, instance) {
+    var meetingId = event.target.dataset.id;
+    //pdf.js in helpers
+    generate_pdf(meetingId);
   },
 });

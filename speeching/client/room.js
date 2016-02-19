@@ -47,11 +47,13 @@ Template.showRoom.onCreated(function () {
       added: function (doc) {
         // start recording
         console.log("start recording");
+        $('#playModal').modal('hide');
         instance.recognition.start();
       },
       removed: function (doc) {
         // stop recording
         console.log("stop recording");
+        console.log(instance.data._id);
         instance.recognition.stop();
       },
     });
@@ -90,21 +92,61 @@ Template.showRoom.helpers({
     });
   },
   getUsers: function () {
-    var userIds = Meetings.findOne(this._id).users;
-    return Meteor.users.find({
-      _id: {
-        $in: userIds
-      }
+    var users = Meetings.findOne(this._id).users;
+    var result = [];
+    users.forEach(function(entry) {
+      var user = Meteor.users.findOne({_id: entry.userId});
+      user.isReady = entry.isReady;
+      result.push(user);
     });
+    return result;
   },
   leader: function () {
-    console.log("huh");
     return Meteor.userId() === Template.currentData().leaderUserId;
   },
+  userReady: function() {
+    var users = Meetings.findOne(this._id).users;
+    console.log(users);
+    var result = false;
+    users.forEach(function(entry) {
+      if (entry.userId == Meteor.userId()) {
+        result = entry.isReady;
+      }
+    });
+    return result;
+  }
 });
 
 Template.showRoom.events({
-  "click #play": function (event, instance) {
+  "click #play": function(event, instance) {
+    $('#playModal').modal('show');
+    loadAudioMeter();
+  },
+  "click #ready": function(event, instance) {
+    //Search meeting, update users. mon id . isReady to true
+    Meteor.call("setIsReady", instance.data._id, Meteor.userId(),true);
+    $('#ready').prop('disabled', true);
+    $('#ready').html("Ready!");
+    var users = Meetings.findOne(instance.data._id).users;
+    var everyoneReady = true;
+    users.forEach(function(entry) {
+      if (entry.isReady == false) {
+        everyoneReady = false;
+      }
+    });
+    console.log("READY?");
+    console.log(everyoneReady);
+    if (everyoneReady) {
+      stopMeter();
+      var elem = document.getElementById('chat_box');
+      elem.scrollTop = elem.scrollHeight;
+      Meteor.call("launchMeeting", instance.data._id, this.recordingState);
+    }
+  },
+  "click #test": function(event, instance) {
+    stopMeter();
+  },
+  "click #launch": function (event, instance) {
     console.log(this.recordingState);
     if (this.recordingState == "paused") {
       Messages.insert({
@@ -133,6 +175,10 @@ Template.showRoom.events({
     elem.scrollTop = elem.scrollHeight;
   },
   "click #pause": function (event, instance) {
+    var users = Meetings.findOne(instance.data._id).users;
+    users.forEach(function(entry) {
+      Meteor.call("setIsReady", instance.data._id, entry.userId,false);
+    });
     Messages.insert({
       text: "Meeting paused",
       meetingId: this._id,
@@ -180,7 +226,10 @@ Template.showRoom.events({
       Meetings.update(instance.data._id,
       {
         $addToSet: {
-          users: findUser._id
+          users: {
+            userId: findUser._id,
+            isReady: false,
+          },
         }
       });
       $("#userModal").modal('hide');

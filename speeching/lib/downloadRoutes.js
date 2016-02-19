@@ -1,4 +1,4 @@
-function downloadTranscript () {
+function downloadTxtTranscript () {
   // prepare yourselves
   var response = this.response;
 
@@ -20,16 +20,16 @@ function downloadTranscript () {
     response.write("["+moment(message.dateCreated).format('HH:mm:ss')+"] ");
     response.write(message.username);
     response.write(": "+message.text+"\n");
-});
+  });
 
   // we're done here
   response.end();
 }
 
 Router.map(function() {
-  this.route("downloadTranscript", {
-    path: "/download/:meetingId",
+  this.route("downloadTxtTranscript", {
+    path: "/download/txt/:meetingId",
     where: "server",
-    action: downloadTranscript,
+    action: downloadTxtTranscript,
   });
 });

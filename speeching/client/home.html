@@ -50,7 +50,17 @@
               <span class="title">{{subject}}</span>
               <span class="date">{{getDate dateCreated}}</span>
               {{#if isStopped recordingState}}
-                <a href="/download/{{_id}}" class="link">Download</a>
+                <!-- Split button -->
+                <div class="btn-group pull-right" style="margin-top:7.5px;margin-right:20px">
+                  <button type="button" class="btn btn-success btn-xs" id="downloadTxt" data-id="{{_id}}">Download txt</button>
+                  <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a id="downloadPdf" data-id="{{_id}}"><i class="fa fa-file-pdf-o"> PDF</i></a></li>
+                  </ul>
+                </div>
                 <a href="/room/{{_id}}" class="link">View</a>
               {{else}}
                 <a href="/room/{{_id}}" class="link">Join <i class="fa fa-caret-square-o-right faa-flash animated"></i></a>

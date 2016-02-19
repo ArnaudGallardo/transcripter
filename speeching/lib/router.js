@@ -12,7 +12,7 @@ FlowRouter.route("/room/:roomId", {
   }
 });
 
-// lol two routers :DDDDDD
+// lol two routers :DDDDDD BAD BAD BAD
 
 Router.configure({
   notFoundTemplate: 'fakePageNotFound',
