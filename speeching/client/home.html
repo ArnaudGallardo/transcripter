@@ -31,19 +31,45 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="friendModal" tabindex="-1" role="dialog" aria-labelledby="addFriend">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="addFriend" action="#" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add a new friend</h4>
+          </div>
+          <div class="modal-body">
+            {{#if isSelectedFriend}}
+              <p style="font-size:18px">
+                Do you really want to invite <span style="color:#0ce3ac">{{getFriendName}}</span> to join your friendlist ?
+              </p>
+            {{else}}
+              {{> friendType}}
+            {{/if}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelFriend">Close</button>
+            <input type="submit" class="btn btn-primary" value="Add friend"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="container" style="padding-top:40px;height:100%">
     <div class="row">
       <div class="col-xs-2">
         <h1 style="color:#EEE">Transcripter</h1>
       </div>
-      <div class="col-xs-1 col-xs-offset-8">
-        <a href="#" id="addRoom" data-toggle="modal" data-target="#roomModal">
-          <i class="fa fa-plus-circle"></i>
-        </a>
-      </div>
     </div>
     <div class="row">
-      <div class="container meetingsList" style="width:100%;padding:0;overflow:hidden;">
+      <div class="container meetingsList col-xs-8" style="padding:0;overflow:hidden;">
+        <div class="meet">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#roomModal"
+          style="display: block;width: 100%;border: none;margin: 0;padding: 0;height: 40px;border-radius: 0; outline:none">
+            CREATE A NEW MEETING
+          </button>
+        </div>
         {{#if length getMeetings}}
           {{#each getMeetings}}
             <div class="meet">
@@ -69,21 +95,71 @@
           {{/each}}
         {{else}}
         <div class="meet">
-          <span class="title">Create your first meeting!</span>
+          <span class="title">You don't have any meetings... :'(</span>
         </div>
         {{/if}}
       </div>
+      <div class="container meetingsList col-xs-offset-1 col-xs-3" style="padding:0;overflow:hidden;">
+        <div class="meet">
+          <button type="button" class="btn btn-success" id="add_friend" data-toggle="modal" data-target="#friendModal"
+          style="display: block;width: 100%;border: none;margin: 0;padding: 0;height: 40px;border-radius: 0; outline:none">
+          <i class="fa fa-user-plus"></i>
+          </button>
+        </div>
+        <div class="meet">
+          <p>
+            Test
+          </p>
+        </div>
+        {{#each getRequestsList}}
+        <div class="meet">
+          <div style="margin-left:10px;">
+            {{> avatar userId=requesterId shape="circle" class="avatar-typeahead" size="small"}}
+          </div>
+          <span class="title">{{username}}</span>
+          <button type="button" class="btn btn-danger btn-xs pull-right" style="margin-top:7.5px;margin-right:10px"
+            id="denyRequest" data-id="{{_id}}"><i class="fa fa-user-times" data-id="{{_id}}"></i></button>
+          <button type="button" class="btn btn-success btn-xs pull-right" style="margin-top:7.5px;margin-right:10px"
+            id="acceptRequest" data-id="{{_id}}"><i class="fa fa-user-plus" data-id="{{_id}}"></i></button>
+        </div>
+        {{/each}}
+        <div class="meetSep"></div>
+        {{#each getFriendsList}}
+        <div class="meet">
+          <div style="margin-left:10px;">
+            {{> avatar userId=friendId shape="circle" class="avatar-typeahead" size="small"}}
+          </div>
+          <span class="title">{{username}}</span>
+        </div>
+        {{/each}}
+      </div>
     </div>
     <div class="row">
-      <div class="col-xs-2">
+      <div class="col-xs-3">
         {{> loginButtons}}
       </div>
     </div>
   </div>
 
   <script>
-  $('.selectpicker').selectpicker({
-    width: 'auto'
-  });
+    $('.selectpicker').selectpicker({
+      width: 'auto'
+    });
+    $("body").backstretch("/conference2.jpg");
   </script>
+</template>
+<template name="userlist">
+  <div>
+    {{> avatar userId=_id shape="circle" class="avatar-typeahead" size="small"}}
+    <span style="height:40px;line-height:40px">{{value}}</span>
+  </div>
+</template>
+<template name="friendType">
+  <div>
+    <input class="form-control typeahead" name="friendUsername" type="text"
+     placeholder="All users"
+     autocomplete="off" spellcheck="off"
+     data-source="getUserlist"
+     data-template="userlist"/>
+  </div>
 </template>

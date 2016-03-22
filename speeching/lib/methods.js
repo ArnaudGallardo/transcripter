@@ -45,5 +45,5 @@ Meteor.methods({
         recordingState: "recording"
       }
     });
-  }
+  },
 })

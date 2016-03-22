@@ -34,3 +34,7 @@ chipcastledotcom:meteor-jspdf
 jspdf:autotable
 autopublish
 insecure
+accounts-google
+socialize:friendships
+sergeyt:typeahead
+utilities:avatar
