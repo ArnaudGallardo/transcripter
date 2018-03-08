@@ -1,0 +1,62 @@
+<head>
+  <title>Speeching</title>
+</head>
+
+<template name="speeching">
+  <nav class="navbar navbar-custom" style="margin-bottom:0;">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Speeching</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a>{{> loginButtons}}</a></li>
+          <li><a href="#">Home</a></li>
+          <li><a id="create-room" href="#" >Create room</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container" style="margin:0;padding:0; width:100%; height:100%;">
+    <div class="row room">
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 chat">
+        <div class="revealer-room-setting" id="setting-hover">
+
+        </div>
+        <div class="room-setting" id="setting">
+          <i class="fa fa-cog"></i>
+        </div>
+        <ul class="messages">
+          {{#each getMessages}}
+            <li>
+              <span class="date_message">[{{formatDate createdAt}}]</span>
+              <span class="username_message">{{username}}</span>
+              <span class="text_message">: {{text}}</span>
+            </li>
+          {{/each}}
+        </ul>
+        <div id="interim" style="color:red">
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 users">
+        <ul class="users_list">
+          <li>
+            <span>
+              Arnaud
+            </span>
+            <img src="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"/>
+          </li>
+        </ul>
+        {{> hello}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="hello">
+  <button type="button" name="button">
+    Start
+  </button>
+</template>

@@ -1,0 +1,89 @@
+<template name="home">
+  <!-- Modal -->
+  <div class="modal fade" id="roomModal" tabindex="-1" role="dialog" aria-labelledby="addRoom">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form id="createRoom" action="#" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Create a new room</h4>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-addon" id="subjLabel">Subject</span>
+              <input type="text" class="form-control" id="meetingSubj" aria-describedby="subjLabel">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon" id="langLabel">Language</span>
+              <select class="selectpicker" id="meetingLang" aria-describedby="langLabel">
+                <option value="en-US">English (US)</option>
+                <option value="en-EN">English (GB)</option>
+                <option value="fr-FR">French</option>
+                <option value="es-ES">Spanish</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Create room"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="padding-top:40px;height:100%">
+    <div class="row">
+      <div class="col-xs-2">
+        <h1 style="color:#EEE">Transcripter</h1>
+      </div>
+      <div class="col-xs-1 col-xs-offset-8">
+        <a href="#" id="addRoom" data-toggle="modal" data-target="#roomModal">
+          <i class="fa fa-plus-circle"></i>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="container meetingsList" style="width:100%;padding:0;overflow:hidden;">
+        {{#if length getMeetings}}
+          {{#each getMeetings}}
+            <div class="meet">
+              <span class="title">{{subject}}</span>
+              <span class="date">{{getDate dateCreated}}</span>
+              {{#if isStopped recordingState}}
+                <!-- Split button -->
+                <div class="btn-group pull-right" style="margin-top:7.5px;margin-right:20px">
+                  <button type="button" class="btn btn-success btn-xs" id="downloadTxt" data-id="{{_id}}">Download txt</button>
+                  <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a id="downloadPdf" data-id="{{_id}}"><i class="fa fa-file-pdf-o"> PDF</i></a></li>
+                  </ul>
+                </div>
+                <a href="/room/{{_id}}" class="link">View</a>
+              {{else}}
+                <a href="/room/{{_id}}" class="link">Join <i class="fa fa-caret-square-o-right faa-flash animated"></i></a>
+              {{/if}}
+            </div>
+          {{/each}}
+        {{else}}
+        <div class="meet">
+          <span class="title">Create your first meeting!</span>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2">
+        {{> loginButtons}}
+      </div>
+    </div>
+  </div>
+
+  <script>
+  $('.selectpicker').selectpicker({
+    width: 'auto'
+  });
+  </script>
+</template>

@@ -1,0 +1,46 @@
+#addRoom {
+  font-size:90px;
+  cursor: pointer;
+}
+
+#addRoom:focus {
+  border: none;
+  outline: none;
+}
+
+.input-group {
+  margin-top: 10px;
+}
+
+.meetingsList {
+  border-radius: 20px;
+  margin-top: 30px;
+  border: 3px solid #0ce3ac;
+}
+
+.meet {
+  display: block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+  font-size: 18px;
+}
+
+.meet:nth-child(even) {
+  background-color: #444;
+}
+
+.meet > span {
+  padding-left: 10px;
+}
+
+.meet > .date {
+  font-size: 16px;
+  color: #CCC;
+}
+
+.meet > .link {
+  float: right;
+  padding-right: 20px;
+}

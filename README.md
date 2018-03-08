@@ -14,6 +14,22 @@ Transcripter won 2nd place at HACK UCSC 2016 ($4825 in cash and prizes) and 2nd 
 
 We presented Transcripter at the [Santa Cruz New Tech MeetUp](https://www.meetup.com/santacruznewtech/) and were immediately bombarded by useres that wanted to join the beta. Unfortunately we stopped development on the project soon after due to time constraints. (Teo was working full-time at UCSC and Arnaud was a full-time student.)
 
+![A picture of Teo and Arnaud](images/UCSC_BusinessDesignShowcase_Transcripter.jpg?raw=true "Winners!")
+
 ## Tech
 
 We built Transcripter with Meteor and use Chrome's built-in transcription API for the heavy lifting.
+
+### How to start it
+
+```sh
+# install Meteor (instructions at https://www.meteor.com/install)
+curl https://install.meteor.com/ | sh
+
+# grab the code
+git clone https://github.com/ArnaudGallardo/transcripter
+
+# run it
+cd transcripter
+meteor
+```

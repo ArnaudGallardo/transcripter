@@ -1,0 +1,62 @@
+<head>
+  <title>Speeching</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+</head>
+
+<template name="index">
+  {{#if currentUser}}
+    <p>
+      {{> home}}
+    </p>
+  {{else}}
+    <div class="site-wrapper">
+
+        <div class="site-wrapper-inner">
+
+          <div class="cover-container">
+
+            <div class="masthead clearfix">
+              <div class="inner">
+                <h3 class="masthead-brand">Transcripter</h3>
+                <nav>
+                  <ul class="masthead-nav" style="background-color:rgba(0,0,0,.5);padding-top:10px;padding-bottom:10px;padding-right:40px">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">{{> loginButtons align="right"}}</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+
+            <div class="inner cover" style="background-color:rgba(0,0,0,.5);padding:20px">
+              <h1 class="cover-heading">Welcome</h1>
+              <p class="lead">
+                {{#if getClickedCount}}
+                  You have clicked the "Learn More" button {{getClickedCount}} times.
+                {{else}}
+                  Transcribe your meetings quickly and easily.
+                {{/if}}
+              </p>
+              <p class="lead">
+                <a id="learn-more" href="#" class="btn btn-lg btn-default">Learn more</a>
+              </p>
+            </div>
+
+            <div class="mastfoot">
+              <div class="inner">
+                <p>Created from Redbull and Pizza <i class="fa fa-heart"></i></p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <script>
+        $(".site-wrapper").backstretch("/background.jpg");
+      </script>
+    {{/if}}
+</template>
